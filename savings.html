@@ -1,0 +1,239 @@
+<!doctype html>
+
+<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]><html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]><html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="no-js"> <!--<![endif]-->
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Coverlink | Calculator</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" href="icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link href="css/bootstrap.css" media="screen" rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+        <link href="css/style.css" media="screen" rel="stylesheet">
+
+        <!--[if lt IE 9]><script src="js/respond.min.js"></script><![endif]-->
+        <!--[if gte IE 9]>
+        <style type="text/css">
+            .gradient {filter: none !important;}
+        </style>
+        <![endif]-->
+
+        <!--[if lte IE 8]>
+            <script type="text/javascript" src="js/excanvas.min.js"></script>
+        <![endif]-->
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/libs/bootstrap.min.js"></script>
+        <script src="js/general.js"></script>
+
+        <script type="text/javascript" src="js/jquery.flot.js"></script>
+        <script type="text/javascript" src="js/jquery.flot.resize.js"></script>
+        <script type="text/javascript">
+
+            graph_function = null;
+
+            $(function() {
+
+                function draw_graph() {
+
+                    var graphwidth = $('.widget-graph .inner').width();
+                    $('.widget-graph .graph').css('height', parseInt(graphwidth / 1.6));
+                    $(window).resize(function () {
+                        graphwidth = $('.widget-graph .inner').width();
+                        $('.widget-graph .graph').css('height', parseInt(graphwidth / 1.6));
+                    });
+
+                    var d1 = [[0, 9], [1, 23], [1.6, 8], [2.2, 24], [2.8, 18], [4, 36], [7, 1]],
+                        graphholder = $("#graph"),
+                        plot = $.plot(graphholder, [d1], {
+                            colors: ["#bfd964", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed"],
+                            xaxis: {
+                                min: null,
+                                max: null
+                            },
+                            yaxis: {
+                                autoscaleMargin: 0.02
+                            },
+                            series: {
+                                lines: {
+                                    show: true,
+                                    lineWidth: 2,
+                                    fill: true,
+                                    fillColor: "rgba(191,217,100,0.23)"
+                                },
+                                points: {
+                                    show: true,
+                                    radius: 4,
+                                    lineWidth: 2,
+                                    fillColor: "#fff"
+                                },
+                                shadowSize: 0
+                            },
+                            grid: {
+                                hoverable: true,
+                                clickable: true,
+                                margin: 12,
+                                color: "#aaa",
+                                borderColor: "#dfdcd6"
+                            }
+                        });
+
+                    function showTooltip(x, y, contents) {
+                        $("<div id='graph-tooltip'>" + contents + "</div>").css({
+                            top: y - 36,
+                            left: x - 22
+                        }).appendTo("body").fadeIn(200);
+                    }
+
+                    var previousPoint = null;
+                    graphholder.on("plothover", function (event, pos, item) {
+
+                        if (item) {
+                            if (previousPoint != item.dataIndex) {
+
+                                previousPoint = item.dataIndex;
+
+                                $("#graph-tooltip").remove();
+                                var x = item.datapoint[0].toFixed(2),
+                                    y = item.datapoint[1].toFixed(2);
+
+                                showTooltip(item.pageX, item.pageY, '$' + y * 100);
+                            }
+                        } else {
+                            $("#graph-tooltip").remove();
+                            previousPoint = null;
+                        }
+                    });
+                };
+
+                graph_function = draw_graph
+            });
+        </script>
+
+        <link rel="manifest" href="/manifest.json">
+
+    </head>
+    <body>
+        <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+        <div class="body-wrap">
+            <!--container-->
+            <div class="container">
+
+                <div class="menu clearfix gradient">
+                    <img src="img/logo-png.png" id="logo">
+                </div>
+                <!-- Tabs Alternative Style -->
+                <div class="tabs-framed styled">
+                    <div class="inner">
+                        <ul class="tabs clearfix">
+                            <li class="active"><a href="#events" data-toggle="tab">Calculations</a></li>
+                            <li><a href="#reminder" data-toggle="tab">Breakdown</a></li>
+                            <li><a href="#starred" data-toggle="tab" onclick="showChart()">Savings chart</a></li>
+                        </ul>
+                        <div class="tab-content boxed">
+                            <div class="tab-pane fade in active clearfix" id="events">
+                                                               <h4>Put heading</h4>
+                                <p>He made his film debut with a minor part in Back to the Future</p>
+                                <div class="field_text">
+                                    <input type="number" name="monthly_premium" id="monthly_premium" placeholder="Monthly premium">
+                                </div>
+                                <div class="field_text">
+                                    <input type="number" name="annual_increase" id="annual_increase" placeholder="Annual premium increase">
+                                </div>
+                                <div class="field_text">
+                                    <input type="number" name="period" id="period" placeholder="Period (years)">
+                                </div>
+                                <div class="field_text">
+                                    <input type="number" name="interest" id="interest" placeholder="Interest rate (%)" >
+                                </div>
+
+
+                                <a href="#" class="btn btn-small btn-gray"><span>Back</span></a>
+                                <a href="#" class="btn btn-small" onclick="populateTable()"><span>Calculate</span></a>
+
+                                <div id="results" class="inner" style="display: none">
+                                    <h5>Results</h5>
+                                    <table>
+                                        <tr>
+                                            <td>Monthly premium</td>
+                                            <td id="result_monthly"> </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total value at maturity</td>
+                                            <td><h5 id="result_value"></h5></td>
+                                        </tr>
+                                    </table>
+                                    <a href="#" class="btn btn-small" ><span>Save Quote</span></a>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane fade clearfix" id="reminder">
+                                <h4>Annual breakdown</h4>
+                                <table id="breakdown_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th>Opening balance</th>
+                                            <th>Annual premium</th>
+                                            <th>Interest</th>
+                                            <th>Closing balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table_body">
+
+                                    </tbody>
+                                </table>
+                                <a href="#" class="see-more">See more</a>
+                            </div>
+
+                            <div class="tab-pane fade clearfix" id="starred">
+                                <h4>Savings chart</h4>
+                                <div class="widget-container widget-graph boxed">
+                                    <div class="inner">
+                                        <div id="graph" class="graph"></div>
+                                    </div>
+                                </div>
+                                <a href="#" class="see-more">See more</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--/ container -->
+        </div>
+
+
+        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+        <script>
+            window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+            ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+        </script>
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    </body>
+</html>

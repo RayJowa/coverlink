@@ -1,0 +1,173 @@
+<!doctype html>
+
+<!--[if lt IE 7 ]><html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]><html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]><html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]><html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html lang="en" class="no-js"> <!--<![endif]-->
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Coverlink | Calculator</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" href="icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link href="css/bootstrap.css" media="screen" rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+        <link href="css/style.css" media="screen" rel="stylesheet">
+
+        <!--[if lt IE 9]><script src="js/respond.min.js"></script><![endif]-->
+        <!--[if gte IE 9]>
+        <style type="text/css">
+            .gradient {filter: none !important;}
+        </style>
+        <![endif]-->
+
+        <!--[if lte IE 8]>
+            <script type="text/javascript" src="js/excanvas.min.js"></script>
+        <![endif]-->
+        <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/libs/bootstrap.min.js"></script>
+        <script src="js/general.js"></script>
+
+        <script type="text/javascript" src="js/jquery.flot.js"></script>
+        <script type="text/javascript" src="js/jquery.flot.resize.js"></script>
+        <script type="text/javascript">
+
+            graph_function = null;
+
+            $(function() {
+
+                function draw_graph() {
+
+                    var graphwidth = $('.widget-graph .inner').width();
+                    $('.widget-graph .graph').css('height', parseInt(graphwidth / 1.6));
+                    $(window).resize(function () {
+                        graphwidth = $('.widget-graph .inner').width();
+                        $('.widget-graph .graph').css('height', parseInt(graphwidth / 1.6));
+                    });
+
+                    var d1 = [[0, 9], [1, 23], [1.6, 8], [2.2, 24], [2.8, 18], [4, 36]],
+                        graphholder = $("#graph"),
+                        plot = $.plot(graphholder, [d1], {
+                            colors: ["#bfd964", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed"],
+                            xaxis: {
+                                min: null,
+                                max: null
+                            },
+                            yaxis: {
+                                autoscaleMargin: 0.02
+                            },
+                            series: {
+                                lines: {
+                                    show: true,
+                                    lineWidth: 2,
+                                    fill: true,
+                                    fillColor: "rgba(191,217,100,0.23)"
+                                },
+                                points: {
+                                    show: true,
+                                    radius: 4,
+                                    lineWidth: 2,
+                                    fillColor: "#fff"
+                                },
+                                shadowSize: 0
+                            },
+                            grid: {
+                                hoverable: true,
+                                clickable: true,
+                                margin: 12,
+                                color: "#aaa",
+                                borderColor: "#dfdcd6"
+                            }
+                        });
+
+                    function showTooltip(x, y, contents) {
+                        $("<div id='graph-tooltip'>" + contents + "</div>").css({
+                            top: y - 36,
+                            left: x - 22
+                        }).appendTo("body").fadeIn(200);
+                    }
+
+                    var previousPoint = null;
+                    graphholder.on("plothover", function (event, pos, item) {
+
+                        if (item) {
+                            if (previousPoint != item.dataIndex) {
+
+                                previousPoint = item.dataIndex;
+
+                                $("#graph-tooltip").remove();
+                                var x = item.datapoint[0].toFixed(2),
+                                    y = item.datapoint[1].toFixed(2);
+
+                                showTooltip(item.pageX, item.pageY, '$' + y * 100);
+                            }
+                        } else {
+                            $("#graph-tooltip").remove();
+                            previousPoint = null;
+                        }
+                    });
+                };
+
+                graph_function = draw_graph
+            });
+        </script>
+
+
+        <meta name="msapplication-TileImage" content="img/logo-144x144.png">
+        <meta name="msapplication-TileColor" content="#2F3BA2">
+    </head>
+    <body>
+        <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+        <div class="body-wrap">
+            <!--container-->
+            <div class="container">
+
+                <div class="menu clearfix gradient">
+                    <img src="img/logo-png.png" id="logo">
+                </div>
+                <!-- Tabs Alternative Style -->
+                <a href="savings.html" class="btn btn-large" id="btn_savings"><span>Savings</span></a>
+                <a href="savings.html" class="btn btn-large" id="btn_savings"><span>Retirement</span></a>
+                <a href="savings.html" class="btn btn-large" id="btn_savings"><span>Other</span></a>
+            </div>
+
+            <!--/ container -->
+        </div>
+
+
+
+        <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+        <script>
+            window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+            ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+        </script>
+        <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+
+        <script>
+            if('serviceWorker' in navigator) {
+              navigator.serviceWorker
+                       .register('/sw.js')
+                       .then(function() { console.log("Service Worker Registered"); });
+            }
+        </script>
+    </body>
+</html>
